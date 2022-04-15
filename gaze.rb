@@ -86,7 +86,7 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
       # the active observation is already in top_recent
       top_recent
     else
-      active + top_recent[0, PRINT_N - 1]
+      top_recent[0, PRINT_N - 1] + active
     end
 
   lines =
