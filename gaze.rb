@@ -29,9 +29,21 @@ def init_db
   db
 end
 
-# integer time in hundreths of seconds
+# integer time in milliseconds
 def time(seconds_ago: 0)
-  ((Time.now.to_f - seconds_ago) * 100).round
+  ((Time.now.to_f - seconds_ago) * 1000).round
+end
+
+def pretty_time(ms)
+  if ms < 60 * 1000
+    "#{(ms / 1000.0).round}s"
+  elsif ms < 60 * 60 * 1000
+    "#{(ms / 60 / 1000.0).round}m"
+  else
+    hours = ms / 60 / 60 / 1000
+    minutes = (ms - hours * 60 * 60 * 1000) / 60.0 / 1000
+    "#{hours}h#{minutes.round}m"
+  end
 end
 
 def record_gaze(db, since)
@@ -81,8 +93,9 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
       SQL
 
       color = active[0][0] == obs[0] ? COLORS[:active] : COLORS[:default]
+      print_time = "[#{pretty_time(total[0][0])}]".rjust(7, " ")
 
-      "#{color}#{total[0][0]}: #{obs[2] || obs[1]}#{COLORS[:reset]}"
+      "#{color}#{print_time}: #{obs[2] || obs[1]}#{COLORS[:reset]}"
     end
 
   system("clear")
