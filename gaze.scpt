@@ -5,9 +5,9 @@ tell application "System Events"
   set appName to name of frontmostProcess
 end tell
 
-tell application appName
-  set windowName to the name of the front window
-end tell
+# tell application appName
+#   set windowName to the name of the front window
+# end tell
 
 if appName is equal to "Safari" then
   tell application "Safari"
@@ -22,4 +22,4 @@ else
 end if
 
 set AppleScript's text item delimiters to "\t"
-return {appName, windowName, theUrl} as text
+return {appName, theUrl} as text
