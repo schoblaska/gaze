@@ -8,7 +8,7 @@ def init_db
   db = SQLite3::Database.new "tmp/gaze.db"
 
   db.execute <<-SQL
-    create table subjects (
+    create table observations (
       hash varchar(64),
       app varchar(50),
       window varchar(50),
@@ -33,14 +33,14 @@ def record_gaze(db, since)
   hash = Digest::SHA2.hexdigest([app, window, host].map(&:to_s).join("\t"))
 
   db.execute(
-    "INSERT INTO subjects (hash, app, window, host, duration, observed_at) 
+    "INSERT INTO observations (hash, app, window, host, duration, observed_at) 
             VALUES (?, ?, ?, ?, ?, ?)",
     [hash, app, window, host, time - since, time]
   )
 end
 
 def print_gaze(db)
-  db.execute("SELECT * FROM SUBJECTS") { |row| p row }
+  db.execute("SELECT * FROM observations") { |row| p row }
 end
 
 db = init_db
