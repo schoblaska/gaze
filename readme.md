@@ -9,7 +9,8 @@ ruby gaze.rb
 
 Example output:
 ```
-   [5s]: github.com
-   [8s]: Obsidian
-  [10s]: iTerm2
+Most used apps / websites in the last 10 minutes:
+ -   [55s]: iTerm2
+ -   [30s]: Music
+ -   [12s]: github.com
 ```
