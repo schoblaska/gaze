@@ -84,9 +84,9 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
   to_print =
     if top_recent.any? { |o| o[0] == active[0][0] }
       # the active observation is already in top_recent
-      top_recent.reverse
+      top_recent
     else
-      top_recent[0, PRINT_N - 1].reverse + active
+      active + top_recent[0, PRINT_N - 1]
     end
 
   lines =
@@ -100,14 +100,15 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
       color = active[0][0] == obs[0] ? COLORS[:active] : COLORS[:default]
       print_time = "[#{pretty_time(total[0][0])}]".rjust(7, " ")
 
-      "#{color}#{print_time}: #{obs[2] || obs[1]}#{COLORS[:reset]}"
+      "#{color} - #{print_time}: #{obs[2] || obs[1]}#{COLORS[:reset]}"
     end
 
   (PRINT_N - lines.count).times do
-    lines << "#{COLORS[:blank]}     []#{COLORS[:reset]}"
+    lines << "#{COLORS[:blank]} -      []#{COLORS[:reset]}"
   end
 
   system("clear")
+  puts "#{COLORS[:default]}Most used apps / websites in the last #{WINDOW} minutes:#{COLORS[:reset]}"
   lines.each { |l| puts l }
   puts
 end
