@@ -6,7 +6,12 @@ require "digest"
 # observation and the total observed time for each
 WINDOW = 10
 PRINT_N = 3
-COLORS = { default: "\u001b[37;1m", active: "\u001b[35;1m", reset: "\u001b[0m" }
+COLORS = {
+  default: "\u001b[37;1m",
+  active: "\u001b[35;1m",
+  reset: "\u001b[0m",
+  blank: "\u001b[37m"
+}
 
 def init_db
   `mkdir -p tmp`
@@ -98,8 +103,13 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
       "#{color}#{print_time}: #{obs[2] || obs[1]}#{COLORS[:reset]}"
     end
 
+  (PRINT_N - lines.count).times do
+    lines << "#{COLORS[:blank]}     []#{COLORS[:reset]}"
+  end
+
   system("clear")
   lines.each { |l| puts l }
+  puts
 end
 
 db = init_db
@@ -109,7 +119,7 @@ last_printed = nil
 loop do
   record_gaze(db, since)
 
-  if last_printed.nil? || last_printed < time(seconds_ago: 1)
+  if last_printed.nil? || last_printed < time(seconds_ago: 5)
     print_gaze(db)
     last_printed = time
   end
