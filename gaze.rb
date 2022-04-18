@@ -108,7 +108,7 @@ def print_gaze(db, window = WINDOW, n = PRINT_N)
   end
 
   system("clear")
-  puts "#{COLORS[:default]}Most used apps / websites in the last #{WINDOW} minutes:#{COLORS[:reset]}"
+  puts "#{COLORS[:default]}Recent apps and websites:#{COLORS[:reset]}"
   lines.each { |l| puts l }
   puts
 end
